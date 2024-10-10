@@ -17,6 +17,7 @@ def scan_directory(directory):
                             'path': entry.path,
                             'size': stats.st_size,
                             'last_modified': time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(stats.st_mtime)),
+                            'last_accessed': time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(stats.st_atime))
                         })
                     except Exception as e:
                         # Log error if needed (e.g. permission denied)
@@ -42,7 +43,7 @@ def get_subdirs(directory):
 def scan_all_directories(root_dir, output_file):
     # Open CSV file for output
     with open(output_file, mode='w', newline='', encoding='utf-8') as file:
-        writer = csv.DictWriter(file, fieldnames=['path', 'size', 'last_modified'])
+        writer = csv.DictWriter(file, fieldnames=['path', 'size', 'last_modified', 'last_accessed'])
         writer.writeheader()
 
         # Use a thread pool for efficient directory scanning
